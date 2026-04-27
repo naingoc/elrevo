@@ -76,6 +76,7 @@ canvas {
 
     <button onclick="playMusic()">Click for Surprise 🎁</button>
 
+    <!-- Music -->
     <audio id="music">
         <source src="https://www.myinstants.com/media/sounds/happy-birthday-to-you.mp3" type="audio/mpeg">
     </audio>
@@ -87,13 +88,23 @@ canvas {
 </div>
 
 <script>
-// Play music
+// 🎵 Play Music for 2 Minutes
 function playMusic() {
-    document.getElementById("music").play();
+    let music = document.getElementById("music");
+
+    music.loop = true;
+    music.play();
+
     document.getElementById("msg").style.display = "block";
+
+    // Stop after 2 minutes
+    setTimeout(() => {
+        music.pause();
+        music.currentTime = 0;
+    }, 120000);
 }
 
-// Simple Fireworks
+// 🎆 Fireworks Animation
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 
@@ -106,12 +117,12 @@ function createFirework() {
     let x = Math.random() * canvas.width;
     let y = Math.random() * canvas.height / 2;
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 60; i++) {
         particles.push({
             x: x,
             y: y,
-            dx: (Math.random() - 0.5) * 5,
-            dy: (Math.random() - 0.5) * 5,
+            dx: (Math.random() - 0.5) * 6,
+            dy: (Math.random() - 0.5) * 6,
             life: 100
         });
     }
@@ -134,7 +145,7 @@ function update() {
         }
     });
 
-    if (Math.random() < 0.05) {
+    if (Math.random() < 0.06) {
         createFirework();
     }
 
