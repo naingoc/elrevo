@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Ayesha 🎉</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: black;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    margin-top: 120px;
+}
+
+h1 {
+    font-size: 50px;
+    color: #ffcc00;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #fff; }
+    to { text-shadow: 0 0 30px #ff0; }
+}
+
+p {
+    font-size: 22px;
+    margin: 20px;
+}
+
+button {
+    padding: 15px 25px;
+    font-size: 18px;
+    background: #ffcc00;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: white;
+}
+
+/* Fireworks Canvas */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+</style>
+
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+    <h1>🎉 Happy Birthday Ayesha Murtaza 🎂</h1>
+
+    <p>
+        Meri pyari badi sister 💖<br>
+        Ayesha, tum meri life ka sabse special hissa ho 😊<br>
+        Allah tumhe hamesha khush rakhe 💫
+    </p>
+
+    <button onclick="playMusic()">Click for Surprise 🎁</button>
+
+    <audio id="music">
+        <source src="https://www.myinstants.com/media/sounds/happy-birthday-to-you.mp3" type="audio/mpeg">
+    </audio>
+
+    <p id="msg" style="display:none;">
+        🎂 Love you so much Ayesha 🎂<br>
+        💕 Stay blessed always 💕
+    </p>
+</div>
+
+<script>
+// Play music
+function playMusic() {
+    document.getElementById("music").play();
+    document.getElementById("msg").style.display = "block";
+}
+
+// Simple Fireworks
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+function createFirework() {
+    let x = Math.random() * canvas.width;
+    let y = Math.random() * canvas.height / 2;
+
+    for (let i = 0; i < 50; i++) {
+        particles.push({
+            x: x,
+            y: y,
+            dx: (Math.random() - 0.5) * 5,
+            dy: (Math.random() - 0.5) * 5,
+            life: 100
+        });
+    }
+}
+
+function update() {
+    ctx.fillStyle = "rgba(0,0,0,0.2)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((p, index) => {
+        p.x += p.dx;
+        p.y += p.dy;
+        p.life--;
+
+        ctx.fillStyle = "hsl(" + Math.random() * 360 + ",100%,50%)";
+        ctx.fillRect(p.x, p.y, 3, 3);
+
+        if (p.life <= 0) {
+            particles.splice(index, 1);
+        }
+    });
+
+    if (Math.random() < 0.05) {
+        createFirework();
+    }
+
+    requestAnimationFrame(update);
+}
+
+update();
+</script>
+
+</body>
+</html>
