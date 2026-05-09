@@ -3,284 +3,323 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Collections — Elrevo</title>
-
-  <!-- Favicon -->
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="shortcut icon" href="favicon.ico">
-
+  <title>Collections | Elegant Revolution Premium</title>
+  
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
     :root {
       --gold: #d4af37;
       --dark: #1a1a1a;
-      --gray: #666;
-      --light-gray: #f8f8f8;
+      --gray: #888;
+      --light-bg: #fcfcfc;
+      --border: #ececec;
       --white: #ffffff;
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      line-height: 1.7;
-      color: var(--dark);
-      background: var(--white);
+    body { font-family: 'Inter', sans-serif; color: var(--dark); background: var(--white); line-height: 1.6; }
+
+    /* --- Announcement Bar --- */
+    .announcement-bar {
+      background: var(--dark); color: var(--white);
+      text-align: center; padding: 10px 0; font-size: 11px;
+      text-transform: uppercase; letter-spacing: 2px;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Header with Hamburger Menu */
+    /* --- Navigation (Synced with Index) --- */
     .site-header {
-      padding: 25px 0;
-      border-bottom: 1px solid #eee;
-      position: sticky;
-      top: 0;
-      background: var(--white);
-      z-index: 100;
+      padding: 25px 0; border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: rgba(255,255,255,0.98); z-index: 1000;
     }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; max-width: 1600px; margin: 0 auto; padding: 0 40px; }
+    .brand { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; text-decoration: none; color: var(--dark); letter-spacing: 2px; }
+    .nav-links { display: flex; gap: 35px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--dark); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); }
+    .nav-links a:hover { color: var(--gold); }
 
-    .header-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* --- Breadcrumbs --- */
+    .breadcrumbs { padding: 30px 0 10px; font-size: 12px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; }
+    .breadcrumbs a { color: var(--gray); text-decoration: none; }
+    .breadcrumbs span { margin: 0 10px; }
+
+    /* --- Page Title --- */
+    .collection-hero { text-align: center; padding: 60px 0; }
+    .collection-hero h1 { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 400; margin-bottom: 15px; }
+    .collection-hero p { color: var(--gray); max-width: 600px; margin: 0 auto; font-size: 15px; }
+
+    /* --- Main Layout (Sidebar + Grid) --- */
+    .main-content { display: grid; grid-template-columns: 250px 1fr; gap: 50px; padding-bottom: 100px; }
+
+    /* --- Sidebar Filters --- */
+    .sidebar h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+    .filter-group { margin-bottom: 40px; }
+    .filter-list { list-style: none; }
+    .filter-list li { margin-bottom: 12px; }
+    .filter-list label { font-size: 14px; color: var(--dark); cursor: pointer; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
+    .filter-list label:hover { color: var(--gold); }
+    .filter-list input[type="checkbox"] { accent-color: var(--gold); }
+
+    .color-dots { display: flex; gap: 10px; margin-top: 10px; }
+    .dot { width: 20px; height: 20px; border-radius: 50%; border: 1px solid #ddd; cursor: pointer; }
+
+    /* --- Product Grid --- */
+    .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+    .toolbar span { font-size: 13px; color: var(--gray); }
+    .sort-select { border: none; font-family: inherit; font-size: 13px; text-transform: uppercase; outline: none; cursor: pointer; }
+
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
+    
+    .product-card { position: relative; transition: var(--transition); }
+    .product-image-wrapper { position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--light-bg); margin-bottom: 20px; }
+    .product-image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+    .product-card:hover .product-image-wrapper img { transform: scale(1.08); }
+    
+    .quick-add {
+      position: absolute; bottom: 0; width: 100%; background: rgba(255,255,255,0.9);
+      padding: 15px; text-align: center; transform: translateY(100%); transition: var(--transition);
+      text-transform: uppercase; font-size: 11px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
     }
+    .product-card:hover .quick-add { transform: translateY(0); }
 
-    .brand img {
-      height: 50px;
-    }
+    .product-meta h3 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; margin-bottom: 8px; }
+    .product-meta .category { font-size: 11px; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; }
+    .product-meta .price { font-weight: 500; font-size: 15px; color: var(--dark); }
 
-    .nav {
-      display: flex;
-      gap: 35px;
-    }
+    /* --- Pagination --- */
+    .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 80px; }
+    .page-num { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); text-decoration: none; color: var(--dark); font-size: 13px; transition: var(--transition); }
+    .page-num.active, .page-num:hover { background: var(--dark); color: var(--white); border-color: var(--dark); }
 
-    .nav a {
-      text-decoration: none;
-      color: var(--dark);
-      font-weight: 500;
-      transition: color 0.3s;
-    }
+    /* --- Footer (Synced) --- */
+    .footer { background: #000; color: #fff; padding: 80px 0 40px; margin-top: 100px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
+    .footer-col h5 { text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; font-size: 12px; color: var(--gold); }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 12px; }
+    .footer-col ul li a { color: #888; text-decoration: none; font-size: 14px; transition: 0.3s; }
+    .footer-col ul li a:hover { color: #fff; }
 
-    .nav a:hover, .nav a.active {
-      color: var(--gold);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 28px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--dark);
-    }
-
-    /* Mobile Menu */
-    @media (max-width: 768px) {
-      .nav {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: var(--white);
-        border-top: 1px solid #eee;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        padding: 30px 20px;
-        gap: 25px;
-      }
-      .nav.nav-open { display: flex; }
-      .menu-toggle { display: block; }
-    }
-
-    /* Collections Page */
-    .section {
-      padding: 100px 0;
-      text-align: center;
-    }
-
-    .section-header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 54px;
-      margin-bottom: 20px;
-      color: var(--dark);
-    }
-
-    .section-header p {
-      font-size: 20px;
-      color: var(--gray);
-      max-width: 800px;
-      margin: 0 auto 60px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 40px;
-    }
-
-    .product-card {
-      display: block;
-      text-decoration: none;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      transition: all 0.4s ease;
-    }
-
-    .product-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-    }
-
-    .product-card img {
-      width: 100%;
-      height: 500px;
-      object-fit: cover;
-      transition: transform 0.4s;
-    }
-
-    .product-card:hover img {
-      transform: scale(1.05);
-    }
-
-    .product-details {
-      padding: 25px;
-      background: var(--white);
-      text-align: center;
-    }
-
-    .product-details h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      margin-bottom: 10px;
-      color: var(--dark);
-    }
-
-    .muted {
-      color: var(--gray);
-      font-size: 18px;
-      font-weight: 500;
-    }
-
-    /* Mobile */
-    @media (max-width: 768px) {
-      .section-header h1 { font-size: 44px; }
-      .section-header p { font-size: 18px; }
-      .product-card img { height: 400px; }
+    /* --- Responsive --- */
+    @media (max-width: 1024px) {
+      .main-content { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header with Hamburger Menu -->
+  <div class="announcement-bar">Complimentary Worldwide Shipping on Orders Over $500</div>
+
   <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="brand">
-        <img src="assets/images/logo.svg" alt="Elrevo">
-      </a>
-
-      <nav class="nav" id="mobileNav">
-        <a href="index.html">Home</a>
-        <a href="collections.html" class="active">Collections</a>
-        <a href="shop.html">Shop</a>
-        <a href="lookbook.html">Lookbook</a>
-        <a href="blog.html">Blog</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-
-      <div class="header-actions">
-        <button class="menu-toggle" aria-label="Toggle Menu">☰</button>
-        <a href="cart.html">Cart</a>
+    <div class="header-inner">
+      <a href="index.html" class="brand">ELEGANT REVOLUTION</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="collections.html" style="color: var(--gold);">Collections</a></li>
+        <li><a href="#">Boutique</a></li>
+        <li><a href="#">Journal</a></li>
+      </ul>
+      <div class="header-tools">
+        <a href="#" style="text-decoration: none; color: #000; font-size: 12px; font-weight: 700;">BAG (0)</a>
       </div>
     </div>
   </header>
 
-  <main class="container section">
-    <header class="section-header">
-      <h1>Collections</h1>
-      <p>Seasonless ensembles and curated wardrobe pieces.</p>
-    </header>
+  <div class="container" style="max-width: 1600px; margin: 0 auto; padding: 0 40px;">
+    
+    <nav class="breadcrumbs">
+      <a href="index.html">Home</a><span>/</span>Collections
+    </nav>
 
-    <div class="grid product-grid">
-      <!-- Product Cards -->
-      <article class="product-card">
-        <a href="product.html">
-          <img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=1200&q=80" alt="Pioneer Trench">
-          <div class="product-details">
-            <h3>Pioneer Trench</h3>
-            <p class="muted">From $549</p>
-          </div>
-        </a>
-      </article>
+    <section class="collection-hero">
+      <h1>The Autumn Editorial</h1>
+      <p>A collection defined by architectural silhouettes, premium Italian fabrics, and a palette inspired by the changing season.</p>
+    </section>
 
-      <article class="product-card">
-        <a href="product.html">
-          <img src="https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=1200&q=80" alt="Arc Knit">
-          <div class="product-details">
-            <h3>Arc Knit</h3>
-            <p class="muted">From $210</p>
-          </div>
-        </a>
-      </article>
+    <main class="main-content">
+      
+      <!-- Sidebar Filters -->
+      <aside class="sidebar">
+        <div class="filter-group">
+          <h4>Category</h4>
+          <ul class="filter-list">
+            <li><label><input type="checkbox"> All Collections</label></li>
+            <li><label><input type="checkbox"> Outerwear</label></li>
+            <li><label><input type="checkbox"> Knitwear</label></li>
+            <li><label><input type="checkbox"> Evening Wear</label></li>
+            <li><label><input type="checkbox"> Accessories</label></li>
+          </ul>
+        </div>
 
-      <article class="product-card">
-        <a href="product.html">
-          <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80" alt="Signature Blazer">
-          <div class="product-details">
-            <h3>Signature Blazer</h3>
-            <p class="muted">From $680</p>
-          </div>
-        </a>
-      </article>
+        <div class="filter-group">
+          <h4>Size</h4>
+          <ul class="filter-list">
+            <li><label><input type="checkbox"> Small</label></li>
+            <li><label><input type="checkbox"> Medium</label></li>
+            <li><label><input type="checkbox"> Large</label></li>
+            <li><label><input type="checkbox"> Extra Large</label></li>
+          </ul>
+        </div>
 
-      <article class="product-card">
-        <a href="product.html">
-          <img src="https://images.unsplash.com/photo-1520975914503-1c9b9b0d3f9f?auto=format&fit=crop&w=1200&q=80" alt="Leather Cross">
-          <div class="product-details">
-            <h3>Leather Cross</h3>
-            <p class="muted">From $320</p>
+        <div class="filter-group">
+          <h4>Color</h4>
+          <div class="color-dots">
+            <div class="dot" style="background: #000;" title="Black"></div>
+            <div class="dot" style="background: #fff;" title="White"></div>
+            <div class="dot" style="background: #4b5320;" title="Olive"></div>
+            <div class="dot" style="background: #704214;" title="Sepia"></div>
           </div>
-        </a>
-      </article>
+        </div>
+
+        <div class="filter-group">
+          <h4>Price Range</h4>
+          <ul class="filter-list">
+            <li><label><input type="radio" name="price"> Under $200</label></li>
+            <li><label><input type="radio" name="price"> $200 - $500</label></li>
+            <li><label><input type="radio" name="price"> Over $500</label></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Product Section -->
+      <section class="products-area">
+        <div class="toolbar">
+          <span>Showing 12 of 48 Products</span>
+          <select class="sort-select">
+            <option>Sort By: Newest</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+          </select>
+        </div>
+
+        <div class="products-grid">
+          
+          <!-- Product Loop Start (Repeating 8 times for length) -->
+          <div class="product-card">
+            <div class="product-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800" alt="Product">
+              <div class="quick-add">+ Add to Bag</div>
+            </div>
+            <div class="product-meta">
+              <span class="category">Outerwear</span>
+              <h3>Sculpted Wool Overcoat</h3>
+              <p class="price">$890</p>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1539109132345-d36480e668df?q=80&w=800" alt="Product">
+              <div class="quick-add">+ Add to Bag</div>
+            </div>
+            <div class="product-meta">
+              <span class="category">Dresses</span>
+              <h3>Silk Asymmetric Gown</h3>
+              <p class="price">$1,200</p>
+            </div>
+          </div>
+
+          <!-- Repeating more cards for length -->
+          <div class="product-card">
+            <div class="product-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800" alt="Product">
+              <div class="quick-add">+ Add to Bag</div>
+            </div>
+            <div class="product-meta">
+              <span class="category">Menswear</span>
+              <h3>Cashmere Turtleneck</h3>
+              <p class="price">$340</p>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1594932224456-75a779401e07?q=80&w=800" alt="Product">
+              <div class="quick-add">+ Add to Bag</div>
+            </div>
+            <div class="product-meta">
+              <span class="category">Tailoring</span>
+              <h3>Midnight Dinner Jacket</h3>
+              <p class="price">$650</p>
+            </div>
+          </div>
+
+          <!-- Visual placeholders for more items -->
+          <div class="product-card">
+            <div class="product-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800" alt="Product">
+              <div class="quick-add">+ Add to Bag</div>
+            </div>
+            <div class="product-meta">
+              <span class="category">Accessories</span>
+              <h3>Leather Minimalist Tote</h3>
+              <p class="price">$420</p>
+            </div>
+          </div>
+
+          <div class="product-card">
+            <div class="product-image-wrapper">
+              <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800" alt="Product">
+              <div class="quick-add">+ Add to Bag</div>
+            </div>
+            <div class="product-meta">
+              <span class="category">Women</span>
+              <h3>Pleated Midi Skirt</h3>
+              <p class="price">$290</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <a href="#" class="page-num active">1</a>
+          <a href="#" class="page-num">2</a>
+          <a href="#" class="page-num">3</a>
+          <a href="#" class="page-num">→</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container" style="max-width:1400px; margin:0 auto; padding:0 40px;">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h5>About Us</h5>
+          <p style="color:#666; font-size:14px;">Elegant Revolution is a pioneer in modern luxury, focusing on ethical craftsmanship and timeless silhouettes.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Client Care</h5>
+          <ul>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Returns & Exchanges</a></li>
+            <li><a href="#">Size Guide</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Sustainability</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Connect</h5>
+          <p style="color:#666; font-size:13px; margin-bottom:15px;">Sign up for early access to collections.</p>
+          <input type="text" placeholder="Your email" style="background:transparent; border:none; border-bottom:1px solid #333; color:#fff; padding:10px 0; width:100%; outline:none;">
+        </div>
+      </div>
+      <div style="border-top:1px solid #111; padding-top:40px; text-align:center;">
+        <p style="color:#444; font-size:11px; text-transform:uppercase; letter-spacing:2px;">&copy; 2026 Elegant Revolution Luxury. All rights reserved.</p>
+      </div>
     </div>
-  </main>
-
-  <!-- Hamburger Menu Script -->
-  <script>
-    const menuBtn = document.querySelector('.menu-toggle');
-    const nav = document.getElementById('mobileNav');
-
-    if (menuBtn && nav) {
-      menuBtn.addEventListener('click', () => {
-        nav.classList.toggle('nav-open');
-        menuBtn.textContent = nav.classList.contains('nav-open') ? '×' : '☰';
-      });
-    }
-
-    // Highlight current page
-    const currentPage = location.pathname.split("/").pop() || "index.html";
-    document.querySelectorAll('.nav a').forEach(link => {
-      if (link.getAttribute('href') === currentPage || (currentPage === "" && link.getAttribute('href') === "index.html")) {
-        link.classList.add('active');
-      }
-    });
-  </script>
+  </footer>
 
 </body>
 </html>
